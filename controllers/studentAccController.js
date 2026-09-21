@@ -106,6 +106,5 @@ console.log(studentId);
   }
 };
 
-export { studentLogin};
 
 export {addStudentAccess, getStudentAccess, deleteStudent, studentLogin};
