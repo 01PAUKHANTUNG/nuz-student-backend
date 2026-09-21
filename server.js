@@ -30,6 +30,7 @@ app.use("/api/lessons", uploadVideoRouter);
 app.use("/api/student", studentAccRouter);
 app.use("/api/student", studentAccRouter);
 app.use("/api/student", studentAccRouter);
+app.use("/api/student", studentAccRouter);
 
 app.get("/", (req, res) => {
   res.send("API is working!");
