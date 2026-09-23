@@ -67,19 +67,20 @@ const studentLogin = async (req, res) => {
       });
     }
 
-    // Create JWT
-    const token = jwt.sign({studentID: student.studentID},process.env.JWT_SECRET,{expiresIn: "30d"} );
+    if(student.studentID === studentId && student.password === password) {
 
-    return res.json({
-      success: true,
-      token,
-      student: {
-        studentID: student.studentId,
-        name: student.name,
-        email: student.email,
-      },
-      message:"Success Login"
-    });
+        const token = jwt.sign({studentID: student.studentID},{ password : student.password},process.env.JWT_SECRET,{expiresIn: "30d"} );
+
+        return res.json({
+          success: true,
+          token,
+          student: {
+            studentID: student.studentId,
+            password : student.password
+          },
+          message:"SUCCESS LOGIN"
+      }); 
+   }
 
   } catch (error) {
     console.log("Student login error:", error);
