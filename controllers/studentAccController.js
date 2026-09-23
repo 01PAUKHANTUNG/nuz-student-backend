@@ -69,7 +69,7 @@ const studentLogin = async (req, res) => {
 
     if(student.studentID === studentId && student.password === password) {
 
-        const token = jwt.sign({studentID: student.studentID},{ password : student.password},process.env.JWT_SECRET,{expiresIn: "30d"} );
+        const token = jwt.sign({studentID: student.studentID, password : student.password},process.env.JWT_SECRET );
 
         return res.json({
           success: true,
