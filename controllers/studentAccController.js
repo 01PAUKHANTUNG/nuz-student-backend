@@ -46,14 +46,6 @@ const studentLogin = async (req, res) => {
   
   try {
     const { studentId, password } = req.body;
-console.log(studentId);
-
-    if (!studentId || !password) {
-      return res.status(400).json({
-        success: false,
-        message: "Student ID and password are required",
-      });
-    }
 
     // Find student in MongoDB
     const student = await studentAccessModel.findOne({
@@ -61,32 +53,24 @@ console.log(studentId);
     });
 
     if (!student) {
-      return res.status(401).json({
+      return res.json({
         success: false,
-        message: "Invalid Student ID or Password",
+        message: "Invalid Student ID",
       });
     }
 
     // Check password
     if (student.password !== password) {
-      return res.status(401).json({
+      return res.json({
         success: false,
-        message: "Invalid Student ID or Password",
+        message: "Invalid Password",
       });
     }
 
     // Create JWT
-    const token = jwt.sign(
-      {
-        studentID: student.studentID,
-      },
-      process.env.JWT_SECRET,
-      {
-        expiresIn: "30d",
-      }
-    );
+    const token = jwt.sign({studentID: student.studentID},process.env.JWT_SECRET,{expiresIn: "30d"} );
 
-    return res.status(200).json({
+    return res.json({
       success: true,
       token,
       student: {
@@ -94,12 +78,13 @@ console.log(studentId);
         name: student.name,
         email: student.email,
       },
+      message:"Success Login"
     });
 
   } catch (error) {
     console.log("Student login error:", error);
 
-    return res.status(500).json({
+    return res.json({
       success: false,
       message: "Server error",
     });
